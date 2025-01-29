@@ -2,6 +2,8 @@ package com.example.quizapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +46,7 @@ public class QuizActivity2 extends AppCompatActivity {
                 "Okse",
                 "Katt",
                 "Hund");
-
+/*
         MyApplication app = (MyApplication) getApplicationContext();
         photoList = app.getPhotoList();
 
@@ -56,6 +58,11 @@ public class QuizActivity2 extends AppCompatActivity {
             Collections.shuffle(photoList);
         }
 
+*/
+
+        AnimalsManager animalsManager = ((MyApplication) getApplicationContext()).getAnimalsManager();
+        photoList = animalsManager.getAnimalList();
+        animalsManager.shuffleAnimals();
 
         Button button = findViewById(R.id.button1);
         button.setOnClickListener(v ->
@@ -66,6 +73,9 @@ public class QuizActivity2 extends AppCompatActivity {
         scoreText = findViewById(R.id.score);
         feedbackTextView = findViewById(R.id.scoreText);
 
+        /*
+        * back button finish the activity and returns to mainActivity
+        */
         Button btnBack = findViewById(R.id.btnBackToMain);
         btnBack.setOnClickListener(v -> {
             finish();
@@ -109,9 +119,16 @@ public class QuizActivity2 extends AppCompatActivity {
 
         buttons.get(0).setText(correctPhoto.getName());
         buttons.get(0).setOnClickListener(v -> {
+            buttons.get(0).setEnabled(false);
             Log.d("BUTTONS", "Correct button pressed ");
             v.setBackgroundColor(Color.GREEN);
             updateScore();
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                displayNextQuestion();
+                buttons.get(0).setEnabled(true);
+
+            },1000);
+
         });
 
         List<String> ranWords = new ArrayList<>(randomWords);
