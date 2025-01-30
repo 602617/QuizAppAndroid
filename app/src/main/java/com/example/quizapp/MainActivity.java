@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.quizapp.CustomAdapter.OnPhotoClickListener;
+import com.example.quizapp.Photo;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -25,9 +28,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CustomAdapter.OnPhotoClickListener {
 
     private List<Photo> photoList;
+    private AnimalsManager animalsManager;
+    private CustomAdapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,23 +54,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AnimalsManager animalsManager = ((MyApplication) getApplicationContext()).getAnimalsManager();
+        animalsManager = ((MyApplication) getApplicationContext()).getAnimalsManager();
         photoList = animalsManager.getAnimalList();
         animalsManager.addAnimal("Sjiraff", R.drawable.sjiraff, "Sjiraff");
 
         RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        CustomAdapter customAdapter = new CustomAdapter(photoList);
+        customAdapter = new CustomAdapter(photoList,  this);
         recyclerView.setAdapter(customAdapter);
 
-        /* input from user*/
+        /* text input from user*/
         EditText editText = findViewById(R.id.edit_text);
         Button buttonSubmit = findViewById(R.id.button_submit);
 
+        /* image input from user*/
+
+
         buttonSubmit.setOnClickListener(v -> {
-            String userInput = editText.getText().toString();
-            animalsManager.addAnimal(userInput, R.drawable.gorilla, userInput);
+            String userInput = editText.getText().toString().trim();
+            String cap = userInput.substring(0,1).toUpperCase() + userInput.substring(1);
+            animalsManager.addAnimal(cap, R.drawable.gorilla, cap);
 
             customAdapter.notifyDataSetChanged();
         });
@@ -82,6 +91,16 @@ public class MainActivity extends AppCompatActivity {
             Collections.sort(photoList, (p1, p2) -> p2.getName().compareToIgnoreCase(p1.getName()));
             customAdapter.notifyDataSetChanged();
         });
+
+
     }
+    @Override
+    public void onPhotoClick(Photo photo) {
+        Toast.makeText(this,"Clicked: " + photo.getName(), Toast.LENGTH_SHORT).show();
+        animalsManager.deleteItemFromList(photo);
+        customAdapter.notifyDataSetChanged();
+        // can use notifyItemRemoved to update only the deleted item
+    }
+
 
 }

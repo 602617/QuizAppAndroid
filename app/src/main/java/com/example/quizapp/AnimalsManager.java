@@ -34,4 +34,7 @@ public class AnimalsManager {
     public void clearAnimals() {
         animalList.clear();
     }
+    public void deleteItemFromList(Photo photo){
+        animalList.remove(photo);
+    }
 }

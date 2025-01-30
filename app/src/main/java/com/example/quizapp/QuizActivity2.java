@@ -27,6 +27,7 @@ public class QuizActivity2 extends AppCompatActivity {
     private List<Photo> photoList;
     private int currentIndex = 0;
     private int score = 0;
+    private int attempts = 0;
     private TextView scoreText;
     private TextView feedbackTextView;
     @Override
@@ -147,18 +148,20 @@ public class QuizActivity2 extends AppCompatActivity {
 
     public void updateScore(){
         score++;
+        attempts++;
         scoreText.setText("Score: " + score);
         showFeedback(true);
     }
     public void updateScoreMinusOnePoints(){
         score = Math.max(0, score - 1);
+        attempts++;
         scoreText.setText("Score: " + score);
         showFeedback(false);
     }
 
     public void endQuiz() {
         TextView textView = findViewById(R.id.textOption1);
-        textView.setText("Finished!");
+        textView.setText("You got " + score + " right in " + attempts + " tries - nice job!");
         for (Button button : Arrays.asList(
                 findViewById(R.id.button4),
                 findViewById(R.id.button2),
@@ -177,5 +180,7 @@ public class QuizActivity2 extends AppCompatActivity {
         // Hide the feedback after a short delay (e.g., 1 second)
         feedbackTextView.postDelayed(() -> feedbackTextView.setVisibility(View.GONE), 1000);
     }
+
+
 
     }
