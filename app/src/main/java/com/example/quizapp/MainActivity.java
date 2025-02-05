@@ -45,13 +45,12 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnP
             return insets;
         });
 
+        /** Button to start the quiz.
+         * adds clicklistener that takes you to quiz activity*/
         Button button = findViewById(R.id.btnStartQuiz);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, QuizActivity2.class);
-                startActivity(intent);
-            }
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, QuizActivity2.class);
+            startActivity(intent);
         });
 
         animalsManager = ((MyApplication) getApplicationContext()).getAnimalsManager();
@@ -94,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnP
 
 
     }
+
+    /**
+     * uses the interface in CustomAdapter that handles click on image.
+     * deletes the image from the list
+     */
     @Override
     public void onPhotoClick(Photo photo) {
         Toast.makeText(this,"Clicked: " + photo.getName(), Toast.LENGTH_SHORT).show();

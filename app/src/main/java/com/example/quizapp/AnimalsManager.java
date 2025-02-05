@@ -17,6 +17,7 @@ public class AnimalsManager {
         animalList.add(new Photo("Tiger", R.drawable.tiger, "Tiger"));
         animalList.add(new Photo("Rev", R.drawable.rev, "Rev"));
         animalList.add(new Photo("Gorilla", R.drawable.gorilla, "Gorilla"));
+        animalList.add(new Photo ("Leo", R.drawable.leo, "Leo"));
     }
 
     public List<Photo> getAnimalList() {

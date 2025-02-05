@@ -65,6 +65,7 @@ public class QuizActivity2 extends AppCompatActivity {
         photoList = animalsManager.getAnimalList();
         animalsManager.shuffleAnimals();
 
+        /** button to go to next question*/
         Button button = findViewById(R.id.button1);
         button.setOnClickListener(v ->
                 displayNextQuestion());
