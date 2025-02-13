@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -91,7 +93,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         // contents of the view with that element
         Photo photo = animalist.get(position);
         viewHolder.textView.setText(photo.getName());
-        viewHolder.imageView.setImageResource(photo.getImageResId());
+
+        if (photo.getImageUri() != null) {
+            // Load image from URI using Glide
+            viewHolder.imageView.setImageURI(photo.getImageUri());
+        }else {
+            viewHolder.imageView.setImageResource(photo.getImageResId());
+        }
+
         viewHolder.imageView.setOnClickListener(v -> {
             listener.onPhotoClick(photo);
         });

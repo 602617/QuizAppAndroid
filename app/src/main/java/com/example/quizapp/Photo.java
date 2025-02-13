@@ -1,14 +1,27 @@
 package com.example.quizapp;
 
-public class Photo {
-    private String name;
-    private int imageResId;
-    private String correctAnswer;
+import android.net.Uri;
+import java.io.Serializable;
 
-    public Photo(String name, int imageResId, String correctAnswer) {
+public class Photo{
+    private String name;
+    private Integer imageResId;
+    private Uri imageUri;
+
+
+    public Photo(String name, int imageResId) {
         this.name = name;
         this.imageResId = imageResId;
-        this.correctAnswer = correctAnswer;
+        this.imageUri = null;
+
+    }
+
+    /**
+     * Constructor for user uploaded images*/
+    public Photo(String name, Uri imageUri){
+        this.name = name;
+        this.imageResId = null;
+        this.imageUri = imageUri;
     }
 
     public String getName() {
@@ -19,7 +32,7 @@ public class Photo {
         this.name = name;
     }
 
-    public int getImageResId() {
+    public Integer getImageResId() {
         return imageResId;
     }
 
@@ -27,11 +40,8 @@ public class Photo {
         this.imageResId = imageResId;
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
+    public Uri getImageUri() {
+        return imageUri;
     }
 
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
 }

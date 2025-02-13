@@ -15,6 +15,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         animalsManager = new AnimalsManager();
+
     }
 
     public AnimalsManager getAnimalsManager() {

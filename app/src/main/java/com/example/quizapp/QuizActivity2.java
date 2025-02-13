@@ -63,6 +63,7 @@ public class QuizActivity2 extends AppCompatActivity {
 
         AnimalsManager animalsManager = ((MyApplication) getApplicationContext()).getAnimalsManager();
         photoList = animalsManager.getAnimalList();
+
         animalsManager.shuffleAnimals();
 
         /** button to go to next question*/
