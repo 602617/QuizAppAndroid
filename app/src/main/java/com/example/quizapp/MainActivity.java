@@ -3,6 +3,7 @@ package com.example.quizapp;
 import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,9 @@ import android.widget.Toast;
 import com.example.quizapp.CustomAdapter.OnPhotoClickListener;
 import com.example.quizapp.Photo;
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnP
     private List<Photo> photoList;
     private AnimalsManager animalsManager;
     private CustomAdapter customAdapter;
+    private Uri selectedImage;
+    private ActivityResultLauncher<String> imagePickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnP
 
         animalsManager = ((MyApplication) getApplicationContext()).getAnimalsManager();
         photoList = animalsManager.getAnimalList();
-        animalsManager.addAnimal("Sjiraff", R.drawable.sjiraff, "Sjiraff");
+        animalsManager.addAnimal("Sjiraff", R.drawable.sjiraff);
 
         RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -68,14 +74,38 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnP
         Button buttonSubmit = findViewById(R.id.button_submit);
 
         /* image input from user*/
+        Button pickImage = findViewById(R.id.imageUpload);
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                new ActivityResultCallback<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri uri) {
+                        if (uri != null) {
+                            selectedImage = uri;
 
+                        }
+                    }
+                }
+        );
 
-        buttonSubmit.setOnClickListener(v -> {
-            String userInput = editText.getText().toString().trim();
-            String cap = userInput.substring(0,1).toUpperCase() + userInput.substring(1);
-            animalsManager.addAnimal(cap, R.drawable.gorilla, cap);
+        pickImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                imagePickerLauncher.launch("image/*");
+            }
+        });
 
-            customAdapter.notifyDataSetChanged();
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userInput = editText.getText().toString().trim();
+                if(selectedImage !=null && !userInput.isEmpty()) {
+                    String cap = userInput.substring(0,1).toUpperCase() + userInput.substring(1);
+                    //Photo newPhoto = new Photo(userInput, selectedImage);
+                    animalsManager.addAnimal(cap,selectedImage);
+                    customAdapter.notifyItemInserted(photoList.size() - 1);
+            }
+        }
         });
 
         /* sort the list in recycleView*/
