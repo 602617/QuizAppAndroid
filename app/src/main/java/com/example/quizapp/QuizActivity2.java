@@ -47,19 +47,6 @@ public class QuizActivity2 extends AppCompatActivity {
                 "Okse",
                 "Katt",
                 "Hund");
-/*
-        MyApplication app = (MyApplication) getApplicationContext();
-        photoList = app.getPhotoList();
-
-        //unngå duplisering av listen. Lager ny liste hver gang appen lages, eksempel: rotasjon av skjerm.
-        if (photoList.isEmpty()) {
-            app.addPhoto(new Photo("Tiger", R.drawable.tiger, "Tiger"));
-            app.addPhoto(new Photo("Rev", R.drawable.rev, "Rev"));
-            app.addPhoto(new Photo("Gorilla", R.drawable.gorilla, "Gorilla"));
-            Collections.shuffle(photoList);
-        }
-
-*/
 
         AnimalsManager animalsManager = ((MyApplication) getApplicationContext()).getAnimalsManager();
         photoList = animalsManager.getAnimalList();
@@ -70,8 +57,6 @@ public class QuizActivity2 extends AppCompatActivity {
         Button button = findViewById(R.id.button1);
         button.setOnClickListener(v ->
                 displayNextQuestion());
-
-        //displayNextQuestion();
 
         scoreText = findViewById(R.id.score);
         feedbackTextView = findViewById(R.id.scoreText);

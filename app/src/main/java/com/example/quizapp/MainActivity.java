@@ -75,8 +75,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdapter.OnP
 
         /* image input from user*/
         Button pickImage = findViewById(R.id.imageUpload);
-
-
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.GetContent(),
                 new ActivityResultCallback<Uri>() {

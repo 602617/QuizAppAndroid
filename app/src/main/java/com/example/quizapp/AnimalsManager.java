@@ -19,7 +19,7 @@ public class AnimalsManager {
         animalList.add(new Photo("Tiger", R.drawable.tiger));
         animalList.add(new Photo("Rev", R.drawable.rev));
         animalList.add(new Photo("Gorilla", R.drawable.gorilla));
-        animalList.add(new Photo ("Leo", R.drawable.leo));
+       // animalList.add(new Photo ("Leo", R.drawable.leo));
     }
 
     public List<Photo> getAnimalList() {
@@ -36,10 +36,6 @@ public class AnimalsManager {
 
     public void shuffleAnimals() {
         Collections.shuffle(animalList);
-    }
-
-    public void clearAnimals() {
-        animalList.clear();
     }
     public void deleteItemFromList(Photo photo){
         animalList.remove(photo);
